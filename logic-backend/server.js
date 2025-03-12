@@ -2,15 +2,14 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const User = require("./models/User"); // Додай цей рядок
+const User = require("./models/User");
 const Bug = require("./models/BugSchema");
 const bcrypt = require("bcrypt");
 const bugRoutes = require("./routes/bugRoutes")
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' }); // Куди зберігати файли
+const upload = multer({ dest: 'uploads/' });
 
 const authRoutes = require("./routes/auth");
-
 
 const app = express();
 
@@ -24,7 +23,6 @@ mongoose.connect(process.env.MONGO_URI, {
 });
 
 app.use("/api/auth", authRoutes);
-
 
 app.post("/api/auth/register", async (req, res) => {
   try {
@@ -55,8 +53,6 @@ app.post("/api/auth/register", async (req, res) => {
   }
 });
 
-
-
 app.post("/api/auth/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -79,19 +75,6 @@ app.post("/api/auth/login", async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 app.use("/api", bugRoutes);
 
@@ -155,10 +138,6 @@ app.post('/api/bugs', upload.single('file'), async (req, res) => {
     res.status(500).json({ message: 'Error creating bug', error });
   }
 });
-
-
-
-
 
 const PORT = 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
