@@ -1,0 +1,23 @@
+config:
+  target: 'http://localhost:3000'
+  phases:
+  - duration: 30
+    arrivalRate: 10
+  - duration: 30
+    arrivalRate: 30
+  - duration: 30
+    arrivalRate: 50
+  - duration: 30
+    arrivalRate: 70
+  - duration: 30
+    arrivalRate: 100
+
+scenarios:
+  - flow:
+      - post:
+          url: '/api/auth/login'
+          json:
+            email: 'testuser@example.com'
+            password: 'Test@1234'
+          expect:
+            - statusCode: 200
