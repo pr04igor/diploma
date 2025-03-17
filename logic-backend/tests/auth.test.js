@@ -64,4 +64,40 @@ describe("Auth API Integration Tests", () => {
     expect(res.statusCode).toBe(200);
     expect(res.body.message).toBe("Welcome to the dashboard");
   });
+
+  test("6. Неможливість входу з незареєстрованим email", async () => {
+    const res = await request(app)
+      .post("/api/auth/login")
+      .send({ email: "nonexistent@example.com", password: testUser.password });
+
+    expect(res.statusCode).toBe(400);
+    expect(res.body.message).toBe("User not found");
+  });
+
+  test("7. Неможливість входу з відсутнім паролем", async () => {
+    const res = await request(app)
+      .post("/api/auth/login")
+      .send({ email: testUser.email });
+
+    expect(res.statusCode).toBe(400);
+    expect(res.body.message).toBe("All fields are required");
+  });
+
+  test("8. Неможливість входу з відсутнім email", async () => {
+    const res = await request(app)
+      .post("/api/auth/login")
+      .send({ password: testUser.password });
+
+    expect(res.statusCode).toBe(400);
+    expect(res.body.message).toBe("All fields are required");
+  });
+
+  test("9. Неможливість входу з невірним паролем після реєстрації", async () => {
+    const res = await request(app)
+      .post("/api/auth/login")
+      .send({ email: testUser.email, password: "WrongPassword" });
+
+    expect(res.statusCode).toBe(400);
+    expect(res.body.message).toBe("Invalid credentials");
+  });
 });

@@ -1,4 +1,4 @@
-const Bug = require('../models/BugSchema'); // Шлях має відповідати реальному розташуванню файлу
+const Bug = require('../models/BugSchema');
 
 exports.createBug = async (req, res) => {
   try {
